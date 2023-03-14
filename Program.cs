@@ -14,41 +14,29 @@ using System;
 
 class Result
 {
+    int day = 256;
+    int month = 9;
+    int dayInMonth;
 
-    /*
-     * Complete the 'dayOfProgrammer' function below.
-     *
-     * The function is expected to return a STRING.
-     * The function accepts INTEGER year as parameter.
-     */
-
-    public static string dayOfProgrammer(int year)
+    if (year == 1918)
     {
-        int dayOfYear = 0;
-    bool isLeapYear = false;
-    
-    if (year < 1918)
+        // special case for year 1918, when the transition from Julian to Gregorian calendar occurred
+        dayInMonth = 26;
+    }
+    else if (year < 1918 && year % 4 == 0 ||                     // Julian calendar
+             year > 1918 && (year % 400 == 0 ||                  // Gregorian calendar
+                            year % 4 == 0 && year % 100 != 0))
     {
-        isLeapYear = (year % 4 == 0);
+        // leap year
+        dayInMonth = day - 244;
     }
     else
     {
-        isLeapYear = (year % 400 == 0) || (year % 4 == 0 && year % 100 != 0);
-    }
-    
-    if (!isLeapYear)
-    {
-        dayOfYear = 256;
-    }
-    else
-    {
-        dayOfYear = 257;
+        // regular year
+        dayInMonth = day - 243;
     }
 
-    DateTime date = new DateTime(year, 1, 1).AddDays(dayOfYear - 1);
-    return date.ToString("dd.MM.yyyy");
-    }
-
+    return $"{dayInMonth:00}.{month:00}.{year:0000}";
 }
 
 class Solution
